@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+{% block title %}Dashboard{% endblock %}
+{% block content %}
+<h3>Enter Text to Summarize</h3>
+<form method="POST">
+  {{ form.hidden_tag() }}
+  <div class="mb-3">
+    {{ form.text(class="form-control", rows=5, placeholder="Paste your text here...") }}
+    {% for e in form.text.errors %}<div class="text-danger">{{ e }}</div>{% endfor %}
+  </div>
+  <button class="btn btn-primary">{{ form.submit.label.text }}</button>
+</form>
+
+<hr>
+<h4>Summary History</h4>
+{% for h in history %}
+  <div class="card mb-3">
+    <div class="card-body">
+      <p><strong>Original:</strong> {{ h.text[:200] }}…</p>
+      <p><strong>Summary:</strong> {{ h.summary }}</p>
+      <small class="text-muted">{{ h.timestamp.strftime('%Y-%m-%d %H:%M') }}</small>
+    </div>
+  </div>
+{% else %}
+  <p>No summaries yet.</p>
+{% endfor %}
+{% endblock %}
